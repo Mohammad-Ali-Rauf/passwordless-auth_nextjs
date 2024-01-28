@@ -4,16 +4,18 @@ import React, { FormEvent, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const Home = () => {
+	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [error, setError] = useState('');
 
-	const validateEmail = () => {
+	const validateEmailAndName = () => {
+		setError(name.trim() === '' ? 'Name is required' : '');
 		setError(email.trim() === '' ? 'Email is required' : '');
 	};
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
-		validateEmail();
+		validateEmailAndName();
 
 		if (!error) {
 			try {
@@ -22,7 +24,7 @@ const Home = () => {
 					headers: {
 						'Content-Type': 'application/json',
 					},
-					body: JSON.stringify({ email }),
+					body: JSON.stringify({ email, name }),
 				});
 
 				if (response.ok) {
@@ -35,6 +37,7 @@ const Home = () => {
 			}
 
 			setEmail('');
+			setName('');
 		} else {
 			console.log('Error');
 		}
@@ -49,10 +52,29 @@ const Home = () => {
 				transition={{ duration: 0.5 }}
 				className='bg-white p-8 rounded shadow-md w-96'
 			>
-				<h2 className='text-2xl font-bold mb-6 flex justify-center tracking-wide'>
-					Welcome <span className='text-blue-500 pl-2'>Back</span>
+				<h2 className='text-2xl font-bold mb-6 flex justify-center'>
+					Welcome to <span className='text-blue-500 pl-2'>Passwordless</span>
 				</h2>
 				<form onSubmit={handleSubmit}>
+					<div className='mb-4'>
+						<label
+							htmlFor='name'
+							className='block text-gray-600 text-sm font-semibold mb-2'
+						>
+							Name
+						</label>
+						<input
+							type='name'
+							id='name'
+							name='name'
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							className={`w-full p-2 border rounded focus:outline-none ${
+								error ? 'border-red-500' : 'focus:border-blue-500'
+							}`}
+						/>
+						{error && <p className='text-red-500 text-sm mt-1'>{error}</p>}
+					</div>
 					<div className='mb-4'>
 						<label
 							htmlFor='email'

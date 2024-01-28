@@ -9,10 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "cookie-cutter": "^0.2.0",
     "framer-motion": "^11.0.3",
+    "jose": "^5.2.0",
     "jsonwebtoken": "^9.0.2",
     "next": "14.1.0",
+    "next-client-cookies": "^1.1.0",
+    "next-cookies": "^2.0.3",
     "nodemailer": "^6.9.8",
+    "nookies": "^2.5.2",
     "react": "^18",
     "react-dom": "^18"
   },

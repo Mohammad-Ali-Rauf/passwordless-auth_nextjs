@@ -6,18 +6,20 @@ import { motion } from 'framer-motion';
 const Home = () => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
-	const [error, setError] = useState('');
+
+	const [emailError, setEmailError] = useState('');
+	const [nameError, setNameError] = useState('');
 
 	const validateEmailAndName = () => {
-		setError(name.trim() === '' ? 'Name is required' : '');
-		setError(email.trim() === '' ? 'Email is required' : '');
+		setNameError(name.trim() === '' ? 'Name is required' : '');
+		setEmailError(email.trim() === '' ? 'Email is required' : '');
 	};
 
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		validateEmailAndName();
 
-		if (!error) {
+		if (!emailError || !nameError) {
 			try {
 				const response = await fetch('http://localhost:3000/api/login', {
 					method: 'POST',
@@ -53,7 +55,7 @@ const Home = () => {
 				className='bg-white p-8 rounded shadow-md w-96'
 			>
 				<h2 className='text-2xl font-bold mb-6 flex justify-center'>
-					Welcome to <span className='text-blue-500 pl-2'>Passwordless</span>
+					Welcome to <span className='text-blue-500 pl-2'>SecureTokenX</span>
 				</h2>
 				<form onSubmit={handleSubmit}>
 					<div className='mb-4'>
@@ -70,10 +72,10 @@ const Home = () => {
 							value={name}
 							onChange={(e) => setName(e.target.value)}
 							className={`w-full p-2 border rounded focus:outline-none ${
-								error ? 'border-red-500' : 'focus:border-blue-500'
+								nameError ? 'border-red-500' : 'focus:border-blue-500'
 							}`}
 						/>
-						{error && <p className='text-red-500 text-sm mt-1'>{error}</p>}
+						{nameError && <p className='text-red-500 text-sm mt-1'>{nameError}</p>}
 					</div>
 					<div className='mb-4'>
 						<label
@@ -89,10 +91,10 @@ const Home = () => {
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 							className={`w-full p-2 border rounded focus:outline-none ${
-								error ? 'border-red-500' : 'focus:border-blue-500'
+								emailError ? 'border-red-500' : 'focus:border-blue-500'
 							}`}
 						/>
-						{error && <p className='text-red-500 text-sm mt-1'>{error}</p>}
+						{emailError && <p className='text-red-500 text-sm mt-1'>{emailError}</p>}
 					</div>
 					<button
 						type='submit'

@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import * as jose from 'jose';
 import { useCookies } from 'next-client-cookies';
 import { useRouter } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
 
 // Define the user interface
 interface IUser {

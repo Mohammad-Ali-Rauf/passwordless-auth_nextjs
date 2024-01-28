@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 	const verificationUrl = `https://passwordless-auth-nextjs.vercel.app/verify?token=${token}`;
 
 	try {
-		transporter.sendMail({
+		await transporter.sendMail({
 			from: {
 				name: 'Ali Enterprises',
 				address: 'm.aliadnanrauf@gmail.com',

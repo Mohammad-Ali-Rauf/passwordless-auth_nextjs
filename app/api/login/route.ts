@@ -23,7 +23,7 @@ export async function POST(req: Request) {
 		value: token,
 	})
 
-	const verificationUrl = `http://localhost:3000/verify?token=${token}`;
+	const verificationUrl = `https://passwordless-auth-nextjs.vercel.app/verify?token=${token}`;
 
 	try {
 		transporter.sendMail({

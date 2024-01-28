@@ -21,13 +21,16 @@ const Home = () => {
 
 		if (!emailError || !nameError) {
 			try {
-				const response = await fetch('http://localhost:3000/api/login', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({ email, name }),
-				});
+				const response = await fetch(
+					'https://passwordless-auth-nextjs.vercel.app/api/login',
+					{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify({ email, name }),
+					}
+				);
 
 				if (response.ok) {
 					console.log('Login successful!');
@@ -75,7 +78,9 @@ const Home = () => {
 								nameError ? 'border-red-500' : 'focus:border-blue-500'
 							}`}
 						/>
-						{nameError && <p className='text-red-500 text-sm mt-1'>{nameError}</p>}
+						{nameError && (
+							<p className='text-red-500 text-sm mt-1'>{nameError}</p>
+						)}
 					</div>
 					<div className='mb-4'>
 						<label
@@ -94,7 +99,9 @@ const Home = () => {
 								emailError ? 'border-red-500' : 'focus:border-blue-500'
 							}`}
 						/>
-						{emailError && <p className='text-red-500 text-sm mt-1'>{emailError}</p>}
+						{emailError && (
+							<p className='text-red-500 text-sm mt-1'>{emailError}</p>
+						)}
 					</div>
 					<button
 						type='submit'

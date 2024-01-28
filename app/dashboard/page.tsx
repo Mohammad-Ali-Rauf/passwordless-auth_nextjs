@@ -1,13 +1,13 @@
 'use client';
 
+// Import necessary dependencies and components
 import React from 'react';
-
-// Animations
 import { motion } from 'framer-motion';
-
 import * as jose from 'jose';
 import { useCookies } from 'next-client-cookies';
+import { useRouter } from 'next/navigation';
 
+// Define the user interface
 interface IUser {
 	email: string;
 	name: string;
@@ -15,13 +15,28 @@ interface IUser {
 	exp: number;
 }
 
+// Define the Dashboard component
 const Dashboard = () => {
+	// Retrieve cookies and router
 	const cookies = useCookies();
-	
-	const token = cookies.get().token
+	const { push } = useRouter();
 
-	const user: IUser = jose.decodeJwt(token);
+	// Extract the token from cookies
+	const token = cookies.get().token;
 
+	// Decode the JWT token to get user information
+	const user: IUser | null = token ? jose.decodeJwt(token) : null;
+
+	// Function to handle logout
+	const handleLogout = () => {
+		// Remove token from cookies
+		cookies.remove('token');
+
+		// Redirect to the login page
+		push('/');
+	};
+
+	// Render the Dashboard component
 	return (
 		<div className='bg-gray-800 min-h-screen flex items-center justify-center'>
 			<motion.div
@@ -33,14 +48,14 @@ const Dashboard = () => {
 				<h1 className='text-2xl font-bold mb-4 text-center'>
 					Welcome,{' '}
 					<span className='text-blue-500 inline-block break-all'>
-						{user.name}
+						{user?.name}
 					</span>
 				</h1>
 
 				<div className='mb-6'>
 					<h2 className='text-lg font-bold mb-2'>Your Profile</h2>
 					<p className='font-semibold'>
-						Email: <span className='font-normal break-all'>{user.email}</span>
+						Email: <span className='font-normal break-all'>{user?.email}</span>
 					</p>
 				</div>
 
@@ -76,6 +91,16 @@ const Dashboard = () => {
 							Action 2
 						</motion.button>
 						{/* Add more action buttons */}
+
+						{/* Logout button */}
+						<motion.button
+							onClick={handleLogout}
+							whileHover={{ scale: 1.05 }}
+							whileTap={{ scale: 0.95 }}
+							className='bg-gray-500 text-white px-4 py-2 rounded-md'
+						>
+							Logout
+						</motion.button>
 					</div>
 				</div>
 			</motion.div>
@@ -83,4 +108,5 @@ const Dashboard = () => {
 	);
 };
 
+// Export the Dashboard component as the default export
 export default Dashboard;
